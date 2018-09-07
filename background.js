@@ -18,8 +18,8 @@ function startTimer(start) {
 	var start = moment(); 
 	var timer = setInterval(function() {
 		var difference = moment().diff(start, 'seconds');
-		console.log(difference)
-		if (difference >= 10) {
+		var timerLength = localStorage["pomodoro-selection"] || 10;
+		if (difference >= timerLength) {
 			stopTimer(timer);
 		}
 		updateTime(difference);
@@ -43,7 +43,7 @@ function notifyUser() {
 	var idBase = "pomodoro";
 	var id = idBase + new Date().getTime();
 	
-	chrome.notifications.create(id,opts,function() {
+	chrome.notifications.create(id, opts, function() {
 		console.log(idbase + "notification created");
 	});
 }
