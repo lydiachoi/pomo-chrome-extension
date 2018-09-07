@@ -8,3 +8,5 @@ The Pomodoro timer is a well-known productivity interval that has been shown to 
 Customize time periods to match your needs.
 
 ### Credit
+
+Icon made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [Flaticon](https://www.flaticon.com/), licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/).

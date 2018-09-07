@@ -15,25 +15,44 @@ chrome.runtime.onMessage.addListener(
 	}); 
 
 function startTimer(start) {
-	setInterval(function() {
-	    var difference = moment().diff(start, 'seconds');
-	    var time = moment().startOf("day").seconds(difference).format("m:ss");
-	    chrome.runtime.sendMessage({
-	    	"command": "updateTime",
-	    	"time": time
-	    });
+	var start = moment(); 
+	var timer = setInterval(function() {
+		var difference = moment().diff(start, 'seconds');
+		console.log(difference)
+		if (difference >= 10) {
+			stopTimer(timer);
+		}
+		updateTime(difference);
+
   }, 1000);
   currentState = "pomodoro";
 }
 
-function updateTime(diff) {
-  console.log("time updates");
-  chrome.runtime.sendMessage({
-    "command:": "updateTime", 
-    "time": diff
-  }); 
+function stopTimer(timer) {
+	clearInterval(timer);
+	notifyUser();
 }
 
+function notifyUser() {
+	var opts = {
+		"type": "basic", 
+		"title": "Break Time",
+		"message": "Time for a break!",
+		"iconUrl": "icon.png"
+	};
+	var idBase = "pomodoro";
+	var id = idBase + new Date().getTime();
+	
+	chrome.notifications.create(id,opts,function() {
+		console.log(idbase + "notification created");
+	});
+}
 
+function updateTime(difference) {
+	var time = moment().startOf("day").seconds(difference).format("m:ss");
 
-
+  chrome.runtime.sendMessage({
+		"command": "updateTime",
+		"time": time
+	});
+}

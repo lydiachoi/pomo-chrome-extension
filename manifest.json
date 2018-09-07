@@ -15,5 +15,6 @@
 		"persistent": false
 	},
 	"permissions": [
+		"notifications"
 	]
 }
