@@ -1,14 +1,28 @@
 function init() {
-  startTimer;
+  console.log("initialized");
+  addMessageListeners();
+  console.log("after listener");
+  startTimer();
 }
 
 function startTimer() {
-  var start = moment();
+  console.log("gets here 2");
+  chrome.runtime.sendMessage({"command": "startTimer"}, 
+    function(response) {
+      console.log(response.message);
+    });
+}
 
-  setInterval(function () {
-    var diff = moment().diff(start, 'seconds');
-    document.getElementById("time").innerText = diff;
-  }, 1000);
+function addMessageListeners() {
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      if (request.command === "updateTime") {
+        console.log("gets here");
+        var time = request.time;
+        document.getElementById("current-time").innerText = time;
+      }
+    }
+  );
 }
 
 document.addEventListener('DOMContentLoaded', init);
